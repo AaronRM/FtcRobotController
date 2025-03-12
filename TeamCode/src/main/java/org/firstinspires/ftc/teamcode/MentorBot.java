@@ -8,18 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "MentorBot", group = "Linear Opmode")
 public class MentorBot extends LinearOpMode {
-
-    private CRServo liftLower;
-    private CRServo liftUpper;
-    private Servo clawLeft;
-    private Servo clawRight;
-    private DcMotor frontLeftDrive;
-    private DcMotor frontRightDrive;
-    private DcMotor backLeftDrive;
-    private DcMotor backRightDrive;
-
     @Override
     public void runOpMode() {
+        CRServo liftLower, liftUpper;
+        Servo clawLeft, clawRight;
+        DcMotor frontLeftDrive, frontRightDrive, backLeftDrive, backRightDrive;
 
         // Initialize the hardware variables
         liftLower = hardwareMap.get(CRServo.class, "servo0"); // 0
@@ -30,7 +23,7 @@ public class MentorBot extends LinearOpMode {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "mfl"); // 0
         frontRightDrive = hardwareMap.get(DcMotor.class, "mfr"); // 1
         backLeftDrive = hardwareMap.get(DcMotor.class, "mbl"); // 2
-        backRightDrive = hardwareMap.get(DcMotor.class, "mbr"); // 3 
+        backRightDrive = hardwareMap.get(DcMotor.class, "mbr"); // 3
 
         // Set the direction of the motors
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
