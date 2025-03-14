@@ -26,7 +26,7 @@ public class MentorBot extends LinearOpMode {
     backRightMotor = hardwareMap.get(DcMotor.class, "mbr"); // 3
 
     // Set the direction of the motors
-    backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+    // backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
     backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
     // Wait for the game to start (driver presses PLAY)
@@ -73,11 +73,11 @@ public class MentorBot extends LinearOpMode {
       liftUpper.setPower(liftUpperSpeed);
 
       // Use gamepad2 left stick x-axis to control clawLeft
-      double clawLeftPosition = (gamepad2.left_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
+      double clawLeftPosition = 1 - (gamepad2.left_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
       clawLeft.setPosition(clawLeftPosition);
 
       // Use gamepad2 right stick x-axis to control clawRight
-      double clawRightPosition = (gamepad2.right_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
+      double clawRightPosition = 1 - (gamepad2.right_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
       clawRight.setPosition(clawRightPosition);
 
       // Show the current servo positions on the telemetry
