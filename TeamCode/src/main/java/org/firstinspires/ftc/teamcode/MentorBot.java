@@ -10,6 +10,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MentorBot extends LinearOpMode {
   @Override
   public void runOpMode() {
+    // Define a multiplier to reduce motor power
+    final double POWER_MULTIPLIER = 0.5;
+
+    // Multiplier for how fast the claw servo moves from the joystick input
+    final double CLAW_SERVO_SPEED = 0.01;
+    // Constants to limit the claw servo positions. Adjust as needed.
+    final double CLAW_SERVO_MIN_POSITION = 0; // Do not set the minimum position to less than 0.0
+    final double CLAW_SERVO_MAX_POSITION = 1; // Do not set the maximum position to more than 1.0
+
     CRServo liftLower, liftUpper;
     Servo tiltServo, clawServo;
     DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
@@ -29,8 +38,9 @@ public class MentorBot extends LinearOpMode {
     // backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
     backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-    // Define a multiplier to reduce motor power
-    final double POWER_MULTIPLIER = 0.5;
+    // Initialize the claw servo position to 0.5
+    clawServo.setPosition(0.5);
+    double clawServoPosition = 0.5;
 
     // Wait for the game to start (driver presses PLAY)
     waitForStart();
@@ -80,7 +90,14 @@ public class MentorBot extends LinearOpMode {
       tiltServo.setPosition(tiltServoPosition);
 
       // Use gamepad2 right stick x-axis to control clawServo
-      double clawServoPosition = 1 - (gamepad2.right_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
+      double clawVelocity = gamepad2.right_stick_x * CLAW_SERVO_SPEED; // Adjust the multiplier as needed for desired speed
+      clawServoPosition += clawVelocity;
+      clawServoPosition = Math.max(CLAW_SERVO_MIN_POSITION, Math.min(CLAW_SERVO_MAX_POSITION, clawServoPosition)); // Ensure the position stays within range
+
+      // Despite the CLAW_SERVO_MIN_POSITION and CLAW_SERVO_MAX_POSITION, we never want to exceed the range [0, 1]
+      // Do a final check to ensure the position is within the range [0, 1]
+      clawServoPosition = Math.max(0, Math.min(1, clawServoPosition));
+
       clawServo.setPosition(clawServoPosition);
 
       // Show the current servo positions on the telemetry
