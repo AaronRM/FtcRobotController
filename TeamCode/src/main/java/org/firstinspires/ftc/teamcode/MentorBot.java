@@ -13,6 +13,10 @@ public class MentorBot extends LinearOpMode {
     // Define a multiplier to reduce motor power
     final double POWER_MULTIPLIER = 0.5;
 
+    // Define the starting position of the claw and tilt servos
+    final double CLAW_SERVO_START_POSITION = 0.5;
+    final double TILT_SERVO_START_POSITION = 0.5;
+
     // Multipliers for how fast the claw and tilt servos move from the joystick input
     final double CLAW_SERVO_SPEED = 0.01;
     final double TILT_SERVO_SPEED = 0.01;
@@ -42,12 +46,12 @@ public class MentorBot extends LinearOpMode {
     // backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
     backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-    // Initialize the claw and tilt servo positions to 0.5
-    clawServo.setPosition(0.5);
-    double clawServoPosition = 0.5;
+    // Initialize the claw and tilt servo positions
+    double clawServoPosition = CLAW_SERVO_START_POSITION;
+    clawServo.setPosition(clawServoPosition);
 
-    tiltServo.setPosition(0.5);
-    double tiltServoPosition = 0.5;
+    double tiltServoPosition = TILT_SERVO_START_POSITION;
+    tiltServo.setPosition(tiltServoPosition);
 
     // Wait for the game to start (driver presses PLAY)
     waitForStart();
