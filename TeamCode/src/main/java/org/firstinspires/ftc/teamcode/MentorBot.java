@@ -11,14 +11,14 @@ public class MentorBot extends LinearOpMode {
   @Override
   public void runOpMode() {
     CRServo liftLower, liftUpper;
-    Servo clawLeft, clawRight;
+    Servo tiltServo, clawServo;
     DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
 
     // Initialize the hardware variables
     liftLower = hardwareMap.get(CRServo.class, "servo0"); // 0
     liftUpper = hardwareMap.get(CRServo.class, "servo1"); // 1
-    clawLeft = hardwareMap.get(Servo.class, "servo2"); // 2
-    clawRight = hardwareMap.get(Servo.class, "servo3"); // 3
+    tiltServo = hardwareMap.get(Servo.class, "servo2"); // 2
+    clawServo = hardwareMap.get(Servo.class, "servo3"); // 3
 
     frontLeftMotor = hardwareMap.get(DcMotor.class, "mfl"); // 0
     frontRightMotor = hardwareMap.get(DcMotor.class, "mfr"); // 1
@@ -75,19 +75,19 @@ public class MentorBot extends LinearOpMode {
       double liftUpperSpeed = -gamepad2.right_stick_y;
       liftUpper.setPower(liftUpperSpeed);
 
-      // Use gamepad2 left stick x-axis to control clawLeft
-      double clawLeftPosition = 1 - (gamepad2.left_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
-      clawLeft.setPosition(clawLeftPosition);
+      // Use gamepad2 left stick x-axis to control tiltServo
+      double tiltServoPosition = 1 - (gamepad2.left_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
+      tiltServo.setPosition(tiltServoPosition);
 
-      // Use gamepad2 right stick x-axis to control clawRight
-      double clawRightPosition = 1 - (gamepad2.right_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
-      clawRight.setPosition(clawRightPosition);
+      // Use gamepad2 right stick x-axis to control clawServo
+      double clawServoPosition = 1 - (gamepad2.right_stick_x + 1) / 2; // Convert from -1 to 1 range to 0 to 1 range
+      clawServo.setPosition(clawServoPosition);
 
       // Show the current servo positions on the telemetry
       telemetry.addData("Lift Lower Speed", liftLowerSpeed);
       telemetry.addData("Lift Upper Speed", liftUpperSpeed);
-      telemetry.addData("Claw Left Position", clawLeftPosition);
-      telemetry.addData("Claw Right Position", clawRightPosition);
+      telemetry.addData("Tilt Servo Position", tiltServoPosition);
+      telemetry.addData("Claw Servo Position", clawServoPosition);
 
       telemetry.update();
     }
