@@ -13,7 +13,7 @@ public class MentorBot extends LinearOpMode {
     // Define a multiplier to reduce motor power
     final double POWER_MULTIPLIER = 0.5;
 
-    // Multiplier for how fast the claw and tilt servos move from the joystick input
+    // Multipliers for how fast the claw and tilt servos move from the joystick input
     final double CLAW_SERVO_SPEED = 0.01;
     final double TILT_SERVO_SPEED = 0.01;
 
