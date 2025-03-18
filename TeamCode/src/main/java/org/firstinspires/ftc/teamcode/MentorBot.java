@@ -29,6 +29,9 @@ public class MentorBot extends LinearOpMode {
     // backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
     backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
+    // Define a multiplier to reduce motor power
+    final double POWER_MULTIPLIER = 0.5;
+
     // Wait for the game to start (driver presses PLAY)
     waitForStart();
 
@@ -48,10 +51,10 @@ public class MentorBot extends LinearOpMode {
       // This ensures all the powers maintain the same ratio,
       // but only if at least one is out of the range [-1, 1]
       double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-      double frontLeftPower = (y + x + rx) / denominator;
-      double backLeftPower = (y - x + rx) / denominator;
-      double frontRightPower = (y - x - rx) / denominator;
-      double backRightPower = (y + x - rx) / denominator;
+      double frontLeftPower = (y + x + rx) / denominator * POWER_MULTIPLIER;
+      double backLeftPower = (y - x + rx) / denominator * POWER_MULTIPLIER;
+      double frontRightPower = (y - x - rx) / denominator * POWER_MULTIPLIER;
+      double backRightPower = (y + x - rx) / denominator * POWER_MULTIPLIER;
 
       frontLeftMotor.setPower(frontLeftPower);
       backLeftMotor.setPower(backLeftPower);
