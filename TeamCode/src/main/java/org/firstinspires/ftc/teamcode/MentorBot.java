@@ -97,8 +97,11 @@ public class MentorBot extends LinearOpMode {
       liftUpper.setPower(liftUpperSpeed);
 
       // Use gamepad2 left stick x-axis to control tiltServo
-      double tiltVelocity = gamepad2.left_stick_x * TILT_SERVO_SPEED; // Adjust the multiplier as needed for desired speed
-      tiltServoPosition += tiltVelocity;
+      if (gamepad2.left_stick_x < 0) {
+        tiltServoPosition -= TILT_SERVO_SPEED;
+      } else if (gamepad2.left_stick_x > 0) {
+        tiltServoPosition += TILT_SERVO_SPEED;
+      }
       tiltServoPosition = Math.max(TILT_SERVO_MIN_POSITION, Math.min(TILT_SERVO_MAX_POSITION, tiltServoPosition)); // Ensure the position stays within range
 
       // Despite the TILT_SERVO_MIN_POSITION and TILT_SERVO_MAX_POSITION, we never want to exceed the range [0, 1]
