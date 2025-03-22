@@ -11,19 +11,20 @@ public class MentorBot extends LinearOpMode {
   @Override
   public void runOpMode() {
     // Define a multiplier to reduce motor power
-    final double POWER_MULTIPLIER = 0.5;
+    final double POWER_MULTIPLIER = 0.3;
 
     // Define the starting position of the claw and tilt servos
-    final double CLAW_SERVO_START_POSITION = 0.5;
-    final double TILT_SERVO_START_POSITION = 0.5;
+    final double CLAW_SERVO_START_POSITION = 0.693;
+    final double TILT_SERVO_START_POSITION = 1.0;
 
     // Multipliers for how fast the claw and tilt servos move from the joystick input
-    final double CLAW_SERVO_SPEED = 0.01;
-    final double TILT_SERVO_SPEED = 0.01;
+    final double LIFT_SPEED = 1;
+    final double CLAW_SERVO_SPEED = 0.001;
+    final double TILT_SERVO_SPEED = 0.001;
 
     // Constants to limit the claw and tilt servo positions. Adjust as needed.
-    final double CLAW_SERVO_MIN_POSITION = 0; // Do not set the minimum position to less than 0.0
-    final double CLAW_SERVO_MAX_POSITION = 1; // Do not set the maximum position to more than 1.0
+    final double CLAW_SERVO_MIN_POSITION = 0.2; // Do not set the minimum position to less than 0.0
+    final double CLAW_SERVO_MAX_POSITION = 0.7; // Do not set the maximum position to more than 1.0
     final double TILT_SERVO_MIN_POSITION = 0; // Do not set the minimum position to less than 0.0
     final double TILT_SERVO_MAX_POSITION = 1; // Do not set the maximum position to more than 1.0
 
@@ -89,19 +90,29 @@ public class MentorBot extends LinearOpMode {
       telemetry.addData("Back Right Drive Power", backRightPower);
 
       // Use gamepad2 left stick y-axis to control liftLower
-      double liftLowerSpeed = -gamepad2.left_stick_y;
+      double liftLowerSpeed = 0;
+      if (gamepad2.left_trigger > 0) {
+        liftLowerSpeed = -LIFT_SPEED;
+      } else if (gamepad2.right_trigger > 0) {
+        liftLowerSpeed = LIFT_SPEED;
+      }
       liftLower.setPower(liftLowerSpeed);
 
+//      double liftLowerSpeed = -gamepad2.left_stick_y;
+//      liftLower.setPower(liftLowerSpeed);
+
       // Use gamepad2 right stick y-axis to control liftUpper
-      double liftUpperSpeed = -gamepad2.right_stick_y;
+      double liftUpperSpeed = 0;
+      if (gamepad2.left_bumper) {
+        liftUpperSpeed = -LIFT_SPEED;
+      } else if (gamepad2.right_bumper) {
+        liftUpperSpeed = LIFT_SPEED;
+      }
       liftUpper.setPower(liftUpperSpeed);
 
       // Use gamepad2 left stick x-axis to control tiltServo
-      if (gamepad2.left_stick_x < 0) {
-        tiltServoPosition -= TILT_SERVO_SPEED;
-      } else if (gamepad2.left_stick_x > 0) {
-        tiltServoPosition += TILT_SERVO_SPEED;
-      }
+      double tiltVelocity = -gamepad2.left_stick_y * TILT_SERVO_SPEED; // Adjust the multiplier as needed for desired speed
+      tiltServoPosition += tiltVelocity;
       tiltServoPosition = Math.max(TILT_SERVO_MIN_POSITION, Math.min(TILT_SERVO_MAX_POSITION, tiltServoPosition)); // Ensure the position stays within range
 
       // Despite the TILT_SERVO_MIN_POSITION and TILT_SERVO_MAX_POSITION, we never want to exceed the range [0, 1]
