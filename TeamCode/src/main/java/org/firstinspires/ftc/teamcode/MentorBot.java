@@ -11,7 +11,7 @@ public class MentorBot extends LinearOpMode {
   @Override
   public void runOpMode() {
     // Define a multiplier to reduce motor power
-    final double POWER_MULTIPLIER = 0.3;
+    final double POWER_MULTIPLIER = 0.6;
 
     // Define the starting position of the claw and tilt servos
     final double CLAW_SERVO_START_POSITION = 0.693;
